@@ -1,20 +1,19 @@
-class persona:
-    messaggio = "ciao"
+class Persona:
+    def __init__(self, nome, eta=0):
+        self.nome = nome
+        self.eta = eta
+        self.yop = 1
 
-    def __init__(self, arg1, arg2):
-        self.nome = arg1
-        self.eta = arg2
-        self.arancia = 3
-
-    def print_info(self):
-        print("Sono " + self.nome + " e ho: " + str(self.eta) + " anni!")
-        print(self.arancia)
+    def __getattrbute__(self, campo):
+        if campo == 'eta':
+            raise AttributeError("non si chiede l'eta!!")
+        else:
+            return super().__getattribute__(campo)
 
 
-p1 = persona("Fronk", 10)
-p1.print_info()
-print(persona.messaggio)
-print(p1.messaggio)
+p1 = Persona('fronk', 23)
+p2 = Persona('pesca', 20)
 
-p1.messaggio = "Arrivedorci!"
-print(p1.messaggio)
+
+print(p2.nome)
+print(p2.eta)
