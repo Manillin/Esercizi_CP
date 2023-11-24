@@ -19,4 +19,4 @@ casa1 = House(2000)
 print(casa1.price)
 casa1.price = 5000
 print(casa1.price)
-casa1.price = 200
+casa1.price = 200  # genera errore
