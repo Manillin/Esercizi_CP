@@ -11,10 +11,10 @@ class persona:
         print(self.arancia)
 
 
-il_bro = persona("Fronk", 10)
-il_bro.print_info()
+p1 = persona("Fronk", 10)
+p1.print_info()
 print(persona.messaggio)
-print(il_bro.messaggio)
+print(p1.messaggio)
 
-il_bro.messaggio = "Arrivedorci!"
-print(il_bro.messaggio)
+p1.messaggio = "Arrivedorci!"
+print(p1.messaggio)
