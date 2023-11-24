@@ -21,7 +21,7 @@ class Test:
 
 
 print("SIM:")
-a = Test(5, 3, "bohoooho")
+a = Test("5", 3, "bohoooho")
 print("@staticmethod -> ", Test.static_method("static method"))
 print("@classmethod -> ", Test.class_method(10))
 a.print_priv()
