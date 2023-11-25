@@ -7,7 +7,6 @@ lis = [i*i for i in range(i, 6)]
 set = {i*i for i in range(1, 6)}
 dic = {i: i*2 for i in range(i, 6)}
 
-
 print(set)
 print(lis)
 print(disp)
