@@ -1,4 +1,8 @@
-lista = [i for i in range(11)]
+l = ['ciao', 'ao', 'hola', 'ciao']
 
-quad = map(lambda x: x*x, lista)
-print(list(quad))
+filter_ciao = filter(lambda x: x == 'ciao', l)
+print(list(filter_ciao))
+
+
+append123 = map(lambda x: x+'123', l)
+print(list(append123))
