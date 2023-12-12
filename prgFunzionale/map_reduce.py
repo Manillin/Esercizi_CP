@@ -15,6 +15,7 @@ def somma(x, y):
 # creazione di un set da una lista:
 
 s_reduce = reduce(lambda x, y: x.union(set([y])), [1, 2, 3, 4], set())
+b = set([1, 2, 3, 4])
 # spiegazione:
 '''
 la funzione reduce ha 3 parametri in questo caso:
@@ -38,3 +39,4 @@ fine spiegazione
 s_ = set(a)
 print(s_)'''
 print(s_reduce)
+print(b)
