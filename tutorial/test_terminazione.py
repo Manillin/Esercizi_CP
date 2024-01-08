@@ -33,7 +33,4 @@ except Exception as e:
     -macro per farlo ripartire e iniziare una nuova partita dopo un timeout 
         .gestire il caso in cui la partita fallisca 
         .comunicare se la partita inizia correttamente
-    
-    
-    
     '''
