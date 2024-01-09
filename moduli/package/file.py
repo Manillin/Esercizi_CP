@@ -1,22 +1,11 @@
-class Casa:
-    def __init__(self) -> None:
-        self.__prezzo = 0
-
-    @property
-    def prezzo(self):
-        return self.__prezzo
-
-    @prezzo.setter
-    def prezzo(self, n):
-        if n > 0:
-            self.__prezzo += n
-        else:
-            print("Invalid price point!")
+import sys
 
 
-c = Casa()
-print(c.prezzo)
-c.prezzo = 500
+args = sys.argv
+print("Arrrrgh: ", args)
 
-print(c.prezzo)
-c.prezzo = -50
+for i in range(len(args[0])):
+    print(i)
+
+for item in args:
+    print(item)
