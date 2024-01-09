@@ -15,7 +15,8 @@ with open('matrice.txt', 'r') as fd:
         matrice2.append(list(map(int, line.split())))
 
 with open('matrice.bin', 'wb') as fd:
-    fd.write(bytes([len(matrice2), len(matrice2[0]), *[x2 for x in matrice2 for x2 in x]]))
+    fd.write(bytes([len(matrice2), len(matrice2[0]),
+             *[x2 for x in matrice2 for x2 in x]]))
 
 matrice3 = []
 with open('matrice.bin', 'rb') as fd:
