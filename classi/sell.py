@@ -1,21 +1,25 @@
-import requests
-from bs4 import BeautifulSoup
+class House:
+    def __init__(self, str='') -> None:
+        self.__price = 0
+        self.paese = str
 
-# URL della pagina web
-url = "https://www.ebay.it/sl/prelist"
+    @property
+    def price(self):
+        return self.__price
 
-testo_da_inserire = "Ciao, questo è il testo da inserire!"
-target = 'textbox se-search-box__field textbox--icon-end'
+    @price.setter
+    def price(self, n):
+        if n > 0:
+            self.__price = n
+        else:
+            print(f"Invalid price for house item in {self.paese}")
+        return
 
-response = requests.get(url)
-str = str(response.text)
 
-'''soup = BeautifulSoup(str, 'html.parser')
-casella_di_testo = soup.find('div')
+c1 = House('Maldive')
+c2 = House('Caraibi')
 
-print(casella_di_testo.get_text())'''
+c1.price = 50
+c2.price = -5
 
-if target in str:
-    print("SIIII")
-else:
-    print("NOOO")
+print(c1.price)

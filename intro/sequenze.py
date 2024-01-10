@@ -1,20 +1,19 @@
-#Scrivere un programma che prenda in input un testo lungo.
-#Stampi la frequenza di ogni carattere.
-#Plus: stampare le frequenze in ordine crescente
+import time
 
 
-testo = input("inserisci testo: ")
-freq = {}
-
-for _ in testo:
-    if _ not in freq:
-        freq[_] = 1
-    else:
-        freq[_] +=1
+def timerFunction(f):
+    def func(arg):
+        print("Added func")
+        f(arg)
+        print("Func terminated!")
+    return func
 
 
-l = sorted(freq.items(), key=lambda x:x[1])
-new_dict = dict(l)
-# list = [('a',1),('b',9),('c',3),('d',2)]
-for k,v in new_dict.items():
-    print(f'{k}: {v}')
+@timerFunction
+def print_nome(a):
+    for i in range(a):
+        print(i)
+    return
+
+
+print_nome(5)
