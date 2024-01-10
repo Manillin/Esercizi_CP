@@ -45,22 +45,24 @@ class Utente:
             print(richiesta)
 
     def get_index(self, n):
-        for index, richiesta in enumerate(self.richieste):
-            if richiesta[0] == n:
+        for index in range(len(self.richieste)):
+            req = self.richieste[index]
+            if req[0] == int(n):
                 return index
-        return -1
+        return "Error"
 
     def modifica_richiesta(self, index, choice, sub_key):
-        if choice == 'a':  # richiesta da approvare
-            target = utenti[sub_key].richieste[index]
+        target = utenti[sub_key].richieste[index]
+        if choice == 'a':
             target[2] = 'approved'
-            print(f"Richieste per utente {sub_key}")
-            print(utenti[sub_key].richieste)
+        else:
+            target[2] = 'rejected'
+        print(f"Richieste per utente {sub_key}")
+        print(utenti[sub_key].richieste)
 
 
 # main
 utenti = {}
-
 # Creazione CEO e inserimento nel sistema
 user_zero = Utente("Fronk Von", 4000, 40, 'r')
 utenti[user_zero.identificativo.strip().lower().replace(" ", "")] = user_zero
@@ -132,16 +134,17 @@ user = utenti['fronkvon']
 print(f"\nUtente Selezionato << {user.identificativo} >>\n\n")
 print(user.listaSub)
 if user.ruolo == 'r':
-    print("Richieste dei subordinati: ")
-    user.visualizza_richieste_subordinato()
-    change_richieste = input(
-        "Vuoi approvare o rifiutare nuove richieste?: (Y) or (N)").lower()
-    if change_richieste == 'y':
-        resp_choice = input("Approvare (a) o Rifiutare (r)")
-        sub = input("Per quale subordinato?: ")
-        id_richiesta = input("ID della richiesta: ")
-        index = utenti[sub].get_index(id_richiesta)
-        user.modifica_richiesta(index, resp_choice, sub)
+    while True:
+        print("Richieste dei subordinati: ")
+        user.visualizza_richieste_subordinato()
+        change_richieste = input(
+            "Vuoi approvare o rifiutare nuove richieste?: (Y) or (N): ").lower()
+        if change_richieste == 'y':
+            resp_choice = input("Approvare (a) o Rifiutare (r): ")
+            sub = input("Per quale subordinato?: ")
+            id_richiesta = input("ID della richiesta: ")  # 0
+            index = utenti[sub].get_index(id_richiesta)
+            user.modifica_richiesta(index, resp_choice, sub)
 
-    else:
-        pass
+        else:
+            print("Esco dal programma...\n")
