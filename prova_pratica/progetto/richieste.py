@@ -1,5 +1,5 @@
 import users
-import main
+from main import red, verde
 
 
 def new_richiesta_pagamento(selected_user):
@@ -10,20 +10,20 @@ def new_richiesta_pagamento(selected_user):
         selected_user.richieste_pag.append(
             [id_richiesta, ore_richiesta, stato_richiesta])
     else:
-        print(main.red("Richiesta di pagamento non disponsibile per 'Responsabile'\n"))
+        print(red("Richiesta di pagamento non disponsibile per 'Responsabile'\n"))
         return None
 
 
 def cronologia_richieste(selected_user):
     if isinstance(selected_user, users.Subordinato):
         if selected_user.richieste_pag:
-            print(main.verde("Richieste pagamento precedenti: "))
+            print(verde("Richieste pagamento precedenti: "))
             for richiesta in selected_user.richieste_pag:
                 print(richiesta)
         else:
             print("Nessuna richiesta trovata...\n")
     else:
-        print(main.red("Cronologia richieste non disponsibile per 'Responsabile'\n"))
+        print(red("Cronologia richieste non disponsibile per 'Responsabile'\n"))
         return None
 
 
@@ -49,7 +49,7 @@ def richieste_subordinati(selected_user, contenitore_utenti):
         for richiesta in lista_richieste:
             print(richiesta)
     else:
-        print(main.red("\nNon hai subordinati con richieste valide...\n"))
+        print(red("\nNon hai subordinati con richieste valide...\n"))
         return None
 
 
@@ -60,7 +60,7 @@ def modifica_richiesta(selected_user, index, choice, contenitore_utenti, sub_key
             target[2] = 'approved'
         else:
             target[2] = 'rejected'
-        print(main.verde(f"Debug: <<Richieste per utente {sub_key}"))
+        print(verde(f"Debug: <<Richieste per utente {sub_key}"))
         print(contenitore_utenti[sub_key].get_richieste)
 
 
