@@ -1,3 +1,6 @@
+import time
+
+
 class Utente:
     def __init__(self, identificativo, stipendio, orario, ruolo) -> None:
         self.identificativo = identificativo
@@ -60,6 +63,16 @@ class Utente:
         print(f"Richieste per utente {sub_key}")
         print(utenti[sub_key].richieste)
 
+    # format richiesta -> [ id, int(ore) , 'status']
+    def get_ore_e_importo_totale(self):
+        lista_importi = []
+        ore_totali = 0
+        for richiesta in self.richieste:
+            if richiesta[2] == 'approved':
+                lista_importi.append(richiesta)
+                ore_totali += richiesta[1]
+        return lista_importi, ore_totali
+
 
 # main
 utenti = {}
@@ -116,18 +129,20 @@ print(f"\nUtente Selezionato << {user.identificativo} >>\n\n")
 
 # Scelta in caso utente subordinato
 if user.ruolo == 's':
-    user.richiesta_pagamento()
-    user.richiesta_pagamento()
-# Scelta in caso utenet responsabile
-# else:
-#     print("Vuoi visualizzare le richieste di pagamento?: ")
-#     user.visualizza_richieste_subordinato()
-#     change_richieste = input(
-#         "Vuoi approvare nuove richieste?: (Y) or (N)").lower()
-#     if change_richieste == 'y':
-#         pass
-#     else:
-#         pass
+    user_choice = input(
+        "Vuoi fare nuova richiesta di pagamento (n) | Visualizzare resoconto (v)").lower()
+    if user_choice == 'n':
+        user.richiesta_pagamento()
+        user.richiesta_pagamento()
+    elif user_choice == 'v':
+        print("Visualizzazione del resoconto: ")
+        lista_importi, ore_totali = user.get_ore_e_importo_totale()
+        for importo in lista_importi:
+            print(importo)
+        print(f"Ore totali: {ore_totali}")
+    else:
+        print("Invalid choice!")
+
 
 # cambio user per test:
 user = utenti['fronkvon']
@@ -147,4 +162,27 @@ if user.ruolo == 'r':
             user.modifica_richiesta(index, resp_choice, sub)
 
         else:
-            print("Esco dal programma...\n")
+            print("Esco da dashboard manager\n")
+            time.sleep(1)
+            break
+
+cambio = input("Log in nuovo utente: ").strip().lower().replace(" ", "")
+user = utenti[cambio]
+
+print(
+    f"\nBentornato << {user.identificativo} >> | Ruolo: {user.ruolo} | Stipendio: {user.stipendio}")
+# Scelta in caso utente subordinato
+if user.ruolo == 's':
+    user_choice = input(
+        "Vuoi fare nuova richiesta di pagamento (n) | Visualizzare resoconto (v)").lower()
+    if user_choice == 'n':
+        user.richiesta_pagamento()
+        user.richiesta_pagamento()
+    elif user_choice == 'v':
+        print("Visualizzazione del resoconto: ")
+        lista_importi, ore_totali = user.get_ore_e_importo_totale()
+        for importo in lista_importi:
+            print(importo)
+        print(f"Ore totali: {ore_totali}")
+    else:
+        print("Invalid choice!")
