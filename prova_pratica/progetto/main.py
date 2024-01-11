@@ -71,7 +71,7 @@ while True:
             print(
                 verde(f"\nBentornato {selected_user.nominativo} cosa vuoi fare?\n"))
             user_choice = input(
-                "1. Nuova Richiesta di pagamento\n2. Visualizzare Cronologia richieste\n3. Visualizzare Resoconto ore")
+                "1. Nuova Richiesta di pagamento\n2. Visualizzare Cronologia richieste\n3. Visualizzare Resoconto ore\n")
             # possibili scelte:
             if user_choice == '1':
                 richieste.new_richiesta_pagamento(selected_user)
