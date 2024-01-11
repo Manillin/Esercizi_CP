@@ -19,7 +19,7 @@ class Utente:
             if choice != '1' and choice != '2':
                 print("Scelta non valida! riprova")
                 continue
-
+            print()
             if choice == '1':
                 # logica incrementale di ID per ogni nuova richiesta
                 stato_richiesta = 'pending'
