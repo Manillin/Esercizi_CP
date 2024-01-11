@@ -6,12 +6,20 @@ class Utente:
 
 
 class Subordinato(Utente):
-    def __init__(self, nominativo, stipendio, orario) -> None:
+    def __init__(self, nominativo, stipendio, orario, responsabile) -> None:
         super().__init__(nominativo, stipendio, orario)
-        self.storico_richieste_pagamento = []
+        self.responsabile = responsabile
+        self.richieste_pag = []
 
-    def nuova_richiesta_pagamento(self):
-        pass
+    def get_richieste(self):
+        return self.richieste_pag
+
+    def get_index(self, id):
+        for index in range(len(self.richieste_pag)):
+            req = self.richieste_pag[index]
+            if req[0] == id:
+                return index
+        return "Error"
 
 
 class Responsabile(Utente):
