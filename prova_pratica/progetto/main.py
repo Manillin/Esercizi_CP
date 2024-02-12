@@ -17,13 +17,17 @@ def verde(x): return f"{Fore.GREEN}{x}{Style.RESET_ALL}"
 def to_key(x): return x.strip().lower().replace(" ", "")
 
 
+# HashMap to store users -> {'userkey': Insance_of_user}
 contenitore_utenti = {}
 ceo = users.Responsabile("Fronk von", 5000, 40)
 contenitore_utenti['fronkvon'] = ceo
 
 while True:
     # user_selected = False
-    print(verde("\tMENU:"))
+    print(red("Lista utenti:"))
+    for key, val in contenitore_utenti.items():
+        print(verde(f"Key: {key} - Nominativo: {val.nominativo} "))
+    print(verde("\n\n\tMENU:"))
     main_menu_choice = input(verde("""
                                    
 1. Creazione nuovo utente
@@ -40,15 +44,19 @@ while True:
             # Controllo Esistenza responsabile
             responsabile = input("Inserisci il nome del tuo responsabile: ")
             responsabile_key = to_key(responsabile)
-            if responsabile_key in contenitore_utenti:
+            if responsabile_key in contenitore_utenti and isinstance(contenitore_utenti[responsabile_key], users.Responsabile):
                 selected_user = users.Subordinato(
                     nominativo, stipendio, orario, responsabile)
+                # aggiunta alla lista utenti:
+                contenitore_utenti[to_key(nominativo)] = selected_user
             else:
                 print(red("\nResponsabile inesistente, processo interrotto...\n"))
                 continue
 
         elif ruolo == 'r':
             selected_user = users.Responsabile(nominativo, stipendio, orario)
+            contenitore_utenti[to_key(nominativo)] = selected_user
+
     elif main_menu_choice == '2':
         login_nominativo = input("Inserisci nominativo per il login: ")
         login_key = to_key(login_nominativo)
@@ -86,6 +94,9 @@ while True:
                         print(richiesta)
                     print(
                         verde(f"Ore totali dalle richieste: {Fore.WHITE}{ore_totali}{Style.RESET_ALL}"))
+            elif user_choice == '4':
+                print(verde("\nReturning to main menu: "))
+                stay_on_menu = True
             else:
                 print(red("\nScelta invalida, interruzione servizio...\n"))
                 continue
@@ -95,14 +106,21 @@ while True:
             print(
                 verde(f"\nBentornato {selected_user.nominativo} cosa vuoi fare?\n"))
             user_choice = input(
-                "1. Visualizzare le richieste dei subordinati\n2. Modificare Richieste esistenti")
+                "1. Visualizzare le richieste dei subordinati: \n2. Modificare Richieste esistenti: ")
             if user_choice == '1':
                 print(verde("Richieste dei subordinati: "))
                 richieste.richieste_subordinati(selected_user)
             elif user_choice == '2':
                 approvare_rifiutare = input(
-                    "Vuoi approvare (a) o rifiutare (r) una richiesta? ")
+                    "Vuoi approvare (a) o rifiutare (r) una richiesta? ").lower()
+                if approvare_rifiutare != 'a' and approvare_rifiutare != 'r':
+                    print(red("\nOperazione non concessa..."))
+                    continue
                 subordinato = input("Per quale subordinato: ")
+                if subordinato not in contenitore_utenti:
+                    print(
+                        red(" \nSubordinato inesistente... Interruzione dell'operazione\n"))
+                    continue
                 id_richiesta = int(input("ID della richiesta: "))
                 index = contenitore_utenti[subordinato].get_index(id_richiesta)
                 richieste.modifica_richiesta(selected_user, index, approvare_rifiutare,

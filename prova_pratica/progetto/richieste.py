@@ -1,5 +1,9 @@
 import users
-from main import red, verde
+from colorama import Fore, Style
+
+
+def red(x): return f"{Fore.RED}{x}{Style.RESET_ALL}"
+def verde(x): return f"{Fore.GREEN}{x}{Style.RESET_ALL}"
 
 
 def new_richiesta_pagamento(selected_user):
@@ -62,6 +66,8 @@ def modifica_richiesta(selected_user, index, choice, contenitore_utenti, sub_key
             target[2] = 'rejected'
         print(verde(f"Debug: <<Richieste per utente {sub_key}"))
         print(contenitore_utenti[sub_key].get_richieste)
+    else:
+        print(red("Missing auth to modify requests"))
 
 
 # Istruzioni in caso lanciato come script
