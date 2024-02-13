@@ -3,6 +3,7 @@ from colorama import Fore, Style
 import time
 import richieste
 import sys
+import pickle
 
 
 # MENU:
@@ -18,6 +19,23 @@ def verde(x): return f"{Fore.GREEN}{x}{Style.RESET_ALL}"
 def to_key(x): return x.strip().lower().replace(" ", "")
 
 
+def crea_backup_utenti(nome_file, contenitore_utenti):
+    with open(nome_file, 'wb') as file:
+        pickle.dump(contenitore_utenti, file)
+    print(verde(f"\nBack up utenti salvato con successo in: {nome_file} "))
+
+
+def load_backup_utenti(nome_file):
+    try:
+        with open(nome_file, 'rb') as file:
+            utenti = pickle.load(file)
+        print(verde(f"\nUtenti ripristinati con successo da: {nome_file}"))
+        return utenti
+    except:
+        print(red(f"\nRipristino utenti fallito..."))
+        return []
+
+
 # HashMap to store users -> {'userkey': Insance_of_user}
 contenitore_utenti = {}
 ceo = users.Responsabile("Fronk von", 5000, 40)
@@ -25,7 +43,7 @@ contenitore_utenti['fronkvon'] = ceo
 
 while True:
     # user_selected = False
-    print(red("Lista utenti:"))
+    print(red("\n\nLista utenti:"))
     for key, val in contenitore_utenti.items():
         print(verde(f"Key: {key} - Nominativo: {val.nominativo} "))
     print(verde("\n\n\tMENU:"))
@@ -33,7 +51,8 @@ while True:
                                    
 1. Creazione nuovo utente
 2. Log in utente 
-3. Uscire 
+3. Efettuare BackUp o Ripristino
+4. Uscire
                             
 """))
     if main_menu_choice == '1':
@@ -70,6 +89,27 @@ while True:
             print(red("\nUtente inesistente...\n"))
             continue
     elif main_menu_choice == '3':
+        menu_ripristino = '''\n
+1. Effettuare un BackUp degli utenti attuali 
+2. Ripristinare stato da un precedente backup
+3. Tornare al menu principale\n
+'''
+        print(verde(menu_ripristino))
+        nome_file = 'backup.pkl'
+        backup_choice = input(": ")
+        if backup_choice == '1':  # fare backup
+            crea_backup_utenti(nome_file, contenitore_utenti)
+            continue
+        elif backup_choice == '2':  # ripristinare da backup
+            contenitore_utenti = load_backup_utenti(nome_file)
+            continue
+        elif backup_choice == '3':
+            continue
+        else:
+            print(red("\nInvalid choice, torno al menu principale"))
+            continue
+
+    elif main_menu_choice == '4':
         print(red("Terminazione..."))
         time.sleep(1.5)
         sys.exit()

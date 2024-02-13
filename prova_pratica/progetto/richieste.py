@@ -54,7 +54,7 @@ def ore_importo_complessivi2(selected_user):
 def richieste_subordinati(selected_user, contenitore_utenti):
     if isinstance(selected_user, users.Responsabile):
         lista_richieste = []
-        print(red("DEBUG"))
+        print(red("\nLista Subordinati: \n"))
         for sub in selected_user.lista_subordinati:
             print(verde(sub.nominativo))
         for subordinato in selected_user.lista_subordinati:
