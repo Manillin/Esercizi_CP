@@ -1,0 +1,6 @@
+User: f f
+
+[0, 1, 'approved']
+[1, 2, 'pending']
+[2, 5, 'pending']
+[3, 20, 'pending']

@@ -1,5 +1,6 @@
 import users
 from colorama import Fore, Style
+import argparse
 
 
 def red(x): return f"{Fore.RED}{x}{Style.RESET_ALL}"
@@ -83,6 +84,45 @@ def modifica_richiesta(selected_user, index, choice, contenitore_utenti, sub_key
         print(red("Missing auth to modify requests"))
 
 
-# Istruzioni in caso lanciato come script
+def load_backup_utenti(nome_file):
+    try:
+        with open(nome_file, 'rb') as file:
+            utenti = pickle.load(file)
+        print(verde(f"\nUtenti ripristinati con successo da: {nome_file}"))
+        return utenti
+    except:
+        print(red(f"\nRipristino utenti fallito..."))
+        return []
+
+
+# Istruzioni in caso lanciato come script ( -m + argv)
+# Deve passare:
+#       - File destinato per l'esportazione
+#       - Utente cui esportare richieste
 if __name__ == "__main__":
-    pass
+    import pickle
+    import main
+    import users
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('file_name', help='Nome del file di backup')
+    parser.add_argument('user', help='Nominativo (senza spazi)')
+    parser.add_argument('file_destinazione',
+                        help='Nome del file su cui esportare')
+    args = parser.parse_args()
+    file_name = args.file_name
+    user_key = args.user
+    dest_file = args.file_destinazione
+
+    contenitore_utenti = main.load_backup_utenti(file_name)
+    print(
+        verde(f"\nDati:\nNome file: {file_name}\nNominativo user: {contenitore_utenti[user_key].nominativo}"))
+
+    user = contenitore_utenti[user_key]
+    with open(dest_file, 'w') as file:
+        file.write(f"User: {contenitore_utenti[user_key].nominativo}\n\n")
+        for richiesta in user.richieste_pag:
+            req = str(richiesta)
+            file.write(req)
+            file.write("\n")
+    print(verde("\nEsportazione conclusa con successo!\n"))
