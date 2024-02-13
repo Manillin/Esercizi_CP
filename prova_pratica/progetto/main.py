@@ -2,6 +2,7 @@ import users
 from colorama import Fore, Style
 import time
 import richieste
+import sys
 
 
 # MENU:
@@ -32,6 +33,7 @@ while True:
                                    
 1. Creazione nuovo utente
 2. Log in utente 
+3. Uscire 
                             
 """))
     if main_menu_choice == '1':
@@ -49,6 +51,8 @@ while True:
                     nominativo, stipendio, orario, responsabile)
                 # aggiunta alla lista utenti:
                 contenitore_utenti[to_key(nominativo)] = selected_user
+                resp = contenitore_utenti[responsabile_key]
+                resp.lista_subordinati.append(selected_user)
             else:
                 print(red("\nResponsabile inesistente, processo interrotto...\n"))
                 continue
@@ -65,6 +69,10 @@ while True:
         else:
             print(red("\nUtente inesistente...\n"))
             continue
+    elif main_menu_choice == '3':
+        print(red("Terminazione..."))
+        time.sleep(1.5)
+        sys.exit()
     else:
         print(red("\nScelta inesistente...\n"))
         continue
@@ -79,21 +87,26 @@ while True:
             print(
                 verde(f"\nBentornato {selected_user.nominativo} cosa vuoi fare?\n"))
             user_choice = input(
-                "1. Nuova Richiesta di pagamento\n2. Visualizzare Cronologia richieste\n3. Visualizzare Resoconto ore\n")
+                "1. Nuova Richiesta di pagamento\n2. Visualizzare Cronologia richieste\n3. Visualizzare Resoconto ore \n4. Tornare al menu principale\n")
             # possibili scelte:
             if user_choice == '1':
                 richieste.new_richiesta_pagamento(selected_user)
             elif user_choice == '2':
                 richieste.cronologia_richieste(selected_user)
             elif user_choice == '3':
-                lista_importi, ore_totali = richieste.ore_importo_complessivi(
-                    selected_user)
-                if lista_importi:
-                    print(verde("Richieste di pagamento accettate: "))
-                    for richiesta in lista_importi:
-                        print(richiesta)
-                    print(
-                        verde(f"Ore totali dalle richieste: {Fore.WHITE}{ore_totali}{Style.RESET_ALL}"))
+                ore_totali = richieste.ore_importo_complessivi2(selected_user)
+                stipendio_loc = selected_user.stipendio
+                sommatoria_pagamenti_ricevuti = stipendio * ore_totali
+                print(verde(
+                    f"Ore Totali: {ore_totali} -> Totale incassi: {sommatoria_pagamenti_ricevuti}"))
+                # lista_importi, ore_totali = richieste.ore_importo_complessivi(
+                #     selected_user)
+                # if lista_importi:
+                #     print(verde("Richieste di pagamento accettate: "))
+                #     for richiesta in lista_importi:
+                #         print(richiesta)
+                #     print(
+                #         verde(f"Ore totali dalle richieste: {Fore.WHITE}{ore_totali}{Style.RESET_ALL}"))
             elif user_choice == '4':
                 print(verde("\nReturning to main menu: "))
                 stay_on_menu = True
@@ -106,26 +119,30 @@ while True:
             print(
                 verde(f"\nBentornato {selected_user.nominativo} cosa vuoi fare?\n"))
             user_choice = input(
-                "1. Visualizzare le richieste dei subordinati: \n2. Modificare Richieste esistenti: ")
+                "1. Visualizzare le richieste dei subordinati: \n2. Modificare Richieste esistenti: \n3. Tornare al menu principale: ")
             if user_choice == '1':
                 print(verde("Richieste dei subordinati: "))
-                richieste.richieste_subordinati(selected_user)
+                richieste.richieste_subordinati(
+                    selected_user, contenitore_utenti)
             elif user_choice == '2':
                 approvare_rifiutare = input(
                     "Vuoi approvare (a) o rifiutare (r) una richiesta? ").lower()
                 if approvare_rifiutare != 'a' and approvare_rifiutare != 'r':
                     print(red("\nOperazione non concessa..."))
                     continue
-                subordinato = input("Per quale subordinato: ")
-                if subordinato not in contenitore_utenti:
+                subordinato_key = to_key(input("Per quale subordinato: "))
+                if subordinato_key not in contenitore_utenti:
                     print(
                         red(" \nSubordinato inesistente... Interruzione dell'operazione\n"))
                     continue
                 id_richiesta = int(input("ID della richiesta: "))
-                index = contenitore_utenti[subordinato].get_index(id_richiesta)
+                index = contenitore_utenti[subordinato_key].get_index(
+                    id_richiesta)
                 richieste.modifica_richiesta(selected_user, index, approvare_rifiutare,
-                                             contenitore_utenti, subordinato)
-
+                                             contenitore_utenti, subordinato_key)
+            elif user_choice == '3':
+                print(verde("\nReturning to main menu: "))
+                stay_on_menu = True
             else:
                 print(red("\nScelta invalida, interruzione servizio...\n"))
                 continue

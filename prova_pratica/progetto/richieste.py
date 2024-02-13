@@ -4,6 +4,7 @@ from colorama import Fore, Style
 
 def red(x): return f"{Fore.RED}{x}{Style.RESET_ALL}"
 def verde(x): return f"{Fore.GREEN}{x}{Style.RESET_ALL}"
+def to_key(x): return x.strip().lower().replace(" ", "")
 
 
 def new_richiesta_pagamento(selected_user):
@@ -42,13 +43,24 @@ def ore_importo_complessivi(selected_user):
     return lista_importi, ore_totali
 
 
+def ore_importo_complessivi2(selected_user):
+    ore_totali = 0
+    for richiesta in selected_user.richieste_pag:
+        if richiesta[2] == 'approved':
+            ore_totali += richiesta[1]
+    return ore_totali
+
+
 def richieste_subordinati(selected_user, contenitore_utenti):
     if isinstance(selected_user, users.Responsabile):
         lista_richieste = []
+        print(red("DEBUG"))
+        for sub in selected_user.lista_subordinati:
+            print(verde(sub.nominativo))
         for subordinato in selected_user.lista_subordinati:
-            for r in range(len(contenitore_utenti[subordinato].get_richieste())):
+            for r in range(len(contenitore_utenti[to_key(subordinato.nominativo)].get_richieste())):
                 lista_richieste.append(
-                    [contenitore_utenti[subordinato].richieste_pag[r], subordinato])
+                    [contenitore_utenti[to_key(subordinato.nominativo)].richieste_pag[r], subordinato.nominativo])
 
         for richiesta in lista_richieste:
             print(richiesta)
@@ -64,8 +76,9 @@ def modifica_richiesta(selected_user, index, choice, contenitore_utenti, sub_key
             target[2] = 'approved'
         else:
             target[2] = 'rejected'
-        print(verde(f"Debug: <<Richieste per utente {sub_key}"))
-        print(contenitore_utenti[sub_key].get_richieste)
+        print(verde(
+            f"Debug: <<Richieste per utente {contenitore_utenti[sub_key].nominativo} >>"))
+        print(contenitore_utenti[sub_key].get_richieste())
     else:
         print(red("Missing auth to modify requests"))
 
