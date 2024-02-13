@@ -127,7 +127,7 @@ while True:
             print(
                 verde(f"\nBentornato {selected_user.nominativo} cosa vuoi fare?\n"))
             user_choice = input(
-                "1. Nuova Richiesta di pagamento\n2. Visualizzare Cronologia richieste\n3. Visualizzare Resoconto ore \n4. Tornare al menu principale\n")
+                "1. Nuova Richiesta di pagamento\n2. Visualizzare Cronologia richieste\n3. Visualizzare Resoconto ore \n4. Esportare una richiesta \n5. Tornare al menu principale\n")
             # possibili scelte:
             if user_choice == '1':
                 richieste.new_richiesta_pagamento(selected_user)
@@ -148,6 +148,25 @@ while True:
                 #     print(
                 #         verde(f"Ore totali dalle richieste: {Fore.WHITE}{ore_totali}{Style.RESET_ALL}"))
             elif user_choice == '4':
+                print(verde("\nQuale richiesta vuoi esportare: "))
+                req = selected_user.get_richieste()
+                if len(req) == 0:
+                    print(red("Non hai richieste esistenti!"))
+                    continue
+                for request in req:
+                    print(verde(request))
+                req_index = int(
+                    input(verde("Indice richiesta da esportare: ")))
+                index = contenitore_utenti[to_key(selected_user.nominativo)].get_index(
+                    req_index)
+                file_richiesta = 'richiesta.txt'
+                with open(file_richiesta, 'w') as file:
+                    richiesta_target = selected_user.richieste_pag[index]
+                    file.write(
+                        f'Utente {selected_user.nominativo} -> ' + str(richiesta_target))
+                print(
+                    verde(f"\nRichiesta esportata con successo in {file_richiesta}"))
+            elif user_choice == '5':
                 print(verde("\nReturning to main menu: "))
                 stay_on_menu = True
             else:
