@@ -11,6 +11,9 @@ class Transazione:
         self.ammontare = ammontare
         self.tipo = tipo
 
+    def print_transazione(self):
+        return f"[{self.data} - {self.ammontare}€ - {self.tipo}]"
+
 
 def filtra_data(transazioni: list['Transazione'], data_inizio, data_fine):
     res = []

@@ -1,9 +1,14 @@
-import datetime
+data_input = "20     22/    12/21    "
+data_input = data_input.replace(" ", "")
 
-data1 = datetime.date(2022, 10, 8)
-data2 = datetime.date(2023, 8, 8)
+# Dividi la stringa in base al carattere "/"
+componenti_data = data_input.split("/")
 
-if data1 > data2:
-    print("data 1 maggiore -> ", data1.strftime('%d/%m/%Y'))
-else:
-    print("data 2 maggiore -> ", data2.strftime('%d/%m/%Y'))
+# Converte i componenti in interi
+anno = int(componenti_data[0])
+mese = int(componenti_data[1])
+giorno = int(componenti_data[2])
+
+print("Anno:", anno)
+print("Mese:", mese)
+print("Giorno:", giorno)

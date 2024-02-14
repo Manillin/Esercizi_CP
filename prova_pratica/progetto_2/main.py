@@ -29,20 +29,30 @@ def load_backup_utenti(nome_file):
         return []
 
 
+def string_to_data(string: str):
+    string = string.replace(" ", "")
+    componenti_data = string.split("/")
+    anno = int(componenti_data[0])
+    mese = int(componenti_data[1])
+    giorno = int(componenti_data[2])
+    data = datetime.date(anno, mese, giorno)
+    return data
+
 # MENU
+
 
 contenitore_utenti = {}
 ceo = users.Utente('Fronk', [], 5)
 # Format Contenitore Utenti:
-# USER_KEY(nospazi) : [ User, [lista_transazioni], saldo ]
+# USER_KEY(nospazi) : USER('nominativo', 'lista', 'saldo')
 #
 contenitore_utenti['fronk'] = ceo
 
 
 while True:
     print(red("\nLista Utenti: "))
-    for key, val in contenitore_utenti.values():
-        print(green(f"User Key: {key} ; UserName: {val.nominativo}"))
+    for pre_user in contenitore_utenti.values():
+        print(green(pre_user.nominativo))
 
     print(green("\n\n\tMENU: "))
     main_menu_choice = input(green('''
@@ -51,7 +61,7 @@ while True:
 2. Log In Utente
 3. Effettuare BackUp o Ripristino 
 4. Uscire
-                                   '''))
+'''))
     if main_menu_choice == '1':
         # Logica creazione nuovo utente:
         nominativo = input("Inserisci nominativo: ")
@@ -71,6 +81,7 @@ while True:
             continue
 
     elif main_menu_choice == '3':
+        # tbi
         pass
 
     elif main_menu_choice == '4':
@@ -86,39 +97,95 @@ while True:
     stay_on_second_menu = False
     while not stay_on_second_menu and nominativo and user_key:
         user = contenitore_utenti[user_key]  # variable classe User
-        print(green(f"\n\nBentornato {nominativo} , cosa vuoi fare? "))
+        if user.saldo < 0:
+            print(
+                green(f"\n\nBentornato {user.nominativo}, Il tuo saldo attuale è: "), end='')
+            print(red(f"{user.saldo}€ "))
+            print(green("Cosa vuoi fare? \n\n"))
+        else:
+            print(
+                green(f"\n\nBentornato {user.nominativo}, Il tuo saldo attuale è: {user.saldo}€ \nCosa vuoi fare? \n\n"))
         user_choice = input(green(
             f"1. Nuovo Versamento\n2. Nuovo Prelievo\n3. Vedere lo storico delle operazioni\n4. Esportare una OP\n5. Tornare al Menu Principale\n"))
 
         # possibile scelte:
         if user_choice == '1':
-            pass
+            print(green(f"\n\t<< Nuovo Versamento: >>\n"))
+            versamento = int(input(green("Quanto vuoi versare sul conto: ")))
+            if versamento <= 0:
+                print(red("Non puoi fare versamenti negativi..."))
+                continue
+
+            scelta_data = input(green(
+                f"Scegli la data della transazione [ YYYY/MM/DD ] o premi enter per selezionare la data odierna: \n"))
+            if scelta_data:
+                try:
+                    scelta_data = scelta_data.replace(" ", "")
+                    componenti_data = scelta_data.split("/")
+                    anno = int(componenti_data[0])
+                    mese = int(componenti_data[1])
+                    giorno = int(componenti_data[2])
+                    data_transazione = datetime.date(anno, mese, giorno)
+                except:
+                    print(red("Formato della data errato! [ YYYY/MM/DD ]"))
+                    continue
+            else:
+                data_transazione = datetime.date.today()
+
+            versamento_singolo = transazione.Transazione(
+                data_transazione, versamento, 'versamento')
+            user.lista_transazioni.append(versamento_singolo)
+            user.saldo += versamento
 
         elif user_choice == '2':
-            pass
+            print(green(f"\n\t<< Nuovo Prelievo: >>\n"))
+            prelievo = abs(
+                int(input(green("Quanto vuoi prelevare dal conto: "))))
+            data_prelievo = datetime.date.today()
+            prelievo_singolo = transazione.Transazione(
+                data_prelievo, prelievo, 'prelievo')
+            saldo_corrente = user.saldo - prelievo
+            if saldo_corrente <= 0:
+                print(
+                    red(f"Attenzione il tuo saldo attuale risulta negativo: {saldo_corrente}€"))
+            else:
+                print(green("Prelievo avvento con successo"))
+            user.lista_transazioni.append(prelievo_singolo)
+            user.saldo = saldo_corrente
 
         # Vedere lo storico delle operazioni
         elif user_choice == '3':
-            scelta_storico = input(green(
-                f"\n1. Vedere lo storico intero\n2. Vedere lo storico filtrato per data"))
-            if scelta_storico == '1':
-                print(green("Lista di tutte le transazioni registrate: "))
+            scelta_storico = input(
+                f"\n1. Vedere lo storico intero (comportamento default)\n2. Vedere lo storico filtrato per data\n")
+            if scelta_storico == '1' or not scelta_storico:
+                print("\n\nLista di tutte le transazioni registrate: ")
+                if user.lista_transazioni == []:
+                    print(red("\nNon sono presenti transazioni a tuo nome! \n"))
+                    continue
                 for tran in user.lista_transazioni:
-                    print(green(tran), end='\n')
+                    print(green(f"{tran.print_transazione()}"), end='\n')
 
             elif scelta_storico == '2':
                 try:
-                    data_inizio = ()
-                    data_fine = ()
+                    print(green("\nFormato data -> [ YYYY/MM/DD ]"))
+                    stringa_data_inizio = input("Data Inizio: ")
+                    stringa_data_fine = input("Data Fine: ")
+                    data_inizio = string_to_data(stringa_data_inizio)
+                    data_fine = string_to_data(stringa_data_fine)
                     lista_transazioni_filtrate = transazione.filtra_data(
                         user.lista_transazioni, data_inizio, data_fine)
                     print(
-                        green(f"Transazioni registrate da {data_inizio} <-> {data_fine}"))
+                        green(f"\n\nTransazioni registrate da {data_inizio} <-- a --> {data_fine}"))
                     for transazione_filtrata in lista_transazioni_filtrate:
-                        print(green(transazione_filtrata), end='\n')
+                        print(
+                            green(transazione_filtrata.print_transazione()), end='\n')
+                    print("\n\n")
                 except:
-                    print(red("Formato data sbagliato! [ YYYY / MM / DD ]"))
+                    print(red("Formato data sbagliatoo! [ YYYY / MM / DD ]"))
                     continue
+            else:
+                print(red("\nScelta invalida...\n"))
+                continue
 
         elif user_choice == '4':
             pass
