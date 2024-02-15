@@ -81,8 +81,26 @@ while True:
             continue
 
     elif main_menu_choice == '3':
-        # tbi
-        pass
+        menu_ripristino = '''\n
+1. Effettuare un BackUp degli utenti attuali 
+2. Ripristinare stato da un precedente backup
+3. Tornare al menu principale\n
+
+'''
+        print(green(menu_ripristino))
+        nome_file = 'backup.pkl'
+        backup_choice = input(": ")
+        if backup_choice == '1':  # fare backup
+            crea_backup_utenti(nome_file, contenitore_utenti)
+            continue
+        elif backup_choice == '2':  # ripristinare da backup
+            contenitore_utenti = load_backup_utenti(nome_file)
+            continue
+        elif backup_choice == '3':
+            continue
+        else:
+            print(red("\nInvalid choice, torno al menu principale"))
+            continue
 
     elif main_menu_choice == '4':
         print(red("\nTerminazione..."))
