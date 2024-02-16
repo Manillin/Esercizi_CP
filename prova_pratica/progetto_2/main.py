@@ -60,8 +60,11 @@ while True:
 1. Creazione Nuovo Utente
 2. Log In Utente
 3. Effettuare BackUp o Ripristino 
-4. Uscire
+4. Esportare le transazioni in formato testuale                                   
+5. Uscire
+                                   
 '''))
+
     if main_menu_choice == '1':
         # Logica creazione nuovo utente:
         nominativo = input("Inserisci nominativo: ")
@@ -103,6 +106,22 @@ while True:
             continue
 
     elif main_menu_choice == '4':
+        nome_file_testuale = 'transazioni.txt'
+        # contiene
+        lista_transazioni_esportazione = []
+        for utente in contenitore_utenti.values():
+            for transazione_utente in utente.lista_transazioni:
+                lista_transazioni_esportazione.append(transazione_utente)
+        counter = 1
+        with open(nome_file_testuale, 'w') as f:
+            for tran in lista_transazioni_esportazione:
+                f.write(f"{counter}. {tran.print_transazione()}\n")
+                counter += 1
+        print(
+            green(f"Transazioni esportate con successo in {nome_file_testuale}"))
+        continue
+
+    elif main_menu_choice == '5':
         print(red("\nTerminazione..."))
         time.sleep(0.5)
         sys.exit()
