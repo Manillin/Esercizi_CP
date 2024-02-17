@@ -9,5 +9,5 @@ Mauris vitae ultricies leo integer malesuada nunc vel. Diam quam nulla porttitor
 """
 
 print(
-    reduce(lambda x,y: x | {y: x.get(y, 0)+1} , s, {})
+    reduce(lambda x, y: x | {y: x.get(y, 0)+1}, s, {})
 )

@@ -39,8 +39,8 @@ def load_backup_utenti(nome_file):
 if __name__ == '__main__':
     # HashMap to store users -> {'userkey': Insance_of_user}
     contenitore_utenti = {}
-    ceo = users.Responsabile("Fronk von", 5000, 40)
-    contenitore_utenti['fronkvon'] = ceo
+    ceo = users.Responsabile("Utente Root", 5000, 40)
+    contenitore_utenti['utenteroot'] = ceo
 
     while True:
         # user_selected = False
@@ -141,7 +141,7 @@ if __name__ == '__main__':
                     ore_totali = richieste.ore_importo_complessivi2(
                         selected_user)
                     stipendio_loc = selected_user.stipendio
-                    sommatoria_pagamenti_ricevuti = stipendio * ore_totali
+                    sommatoria_pagamenti_ricevuti = stipendio_loc * ore_totali
                     print(verde(
                         f"Ore Totali: {ore_totali} -> Totale incassi: {sommatoria_pagamenti_ricevuti}"))
                     # lista_importi, ore_totali = richieste.ore_importo_complessivi(

@@ -102,7 +102,7 @@ def load_backup_utenti(nome_file):
 if __name__ == "__main__":
     import pickle
     import main
-    import users
+    import sys
 
     parser = argparse.ArgumentParser()
     parser.add_argument('file_name', help='Nome del file di backup')
@@ -115,10 +115,16 @@ if __name__ == "__main__":
     dest_file = args.file_destinazione
 
     contenitore_utenti = main.load_backup_utenti(file_name)
+    if user_key not in contenitore_utenti:
+        print(red("Utente NON trovato, usa una key valida (nominativo senza spazi)\n"))
+        sys.exit()
     print(
         verde(f"\nDati:\nNome file: {file_name}\nNominativo user: {contenitore_utenti[user_key].nominativo}"))
 
     user = contenitore_utenti[user_key]
+    if isinstance(user, users.Responsabile):
+        print(red("Hai inserito un responsabile, non esistono richieste di pagamento per questo utente\nInserisci nominativo di un subordinato!\n"))
+        sys.exit()
     with open(dest_file, 'w') as file:
         file.write(f"User: {contenitore_utenti[user_key].nominativo}\n\n")
         for richiesta in user.richieste_pag:
@@ -126,3 +132,9 @@ if __name__ == "__main__":
             file.write(req)
             file.write("\n")
     print(verde("\nEsportazione conclusa con successo!\n"))
+
+    # Esempio uso script:
+    #    python3 -m richieste -> per il helper
+    #    python3 -m richieste
+    #
+    #
