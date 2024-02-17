@@ -15,6 +15,7 @@ def to_key(x): return x.strip().lower().replace(" ", "")
 def crea_backup_utenti(nome_file, struct):
     with open(nome_file, 'wb') as file:
         pickle.dump(struct, file)
+        print("Y")
     print(green(f"Back Up utenti salvato con successo in: {nome_file} "))
 
 
@@ -38,15 +39,14 @@ def string_to_data(string: str):
     data = datetime.date(anno, mese, giorno)
     return data
 
+
 # MENU
 
-
 contenitore_utenti = {}
-ceo = users.Utente('Fronk', [], 5)
+ceo = users.Utente('User 1', [], 5)
 # Format Contenitore Utenti:
 # USER_KEY(nospazi) : USER('nominativo', 'lista', 'saldo')
-#
-contenitore_utenti['fronk'] = ceo
+contenitore_utenti['user1'] = ceo
 
 if __name__ == '__main__':
     while True:
@@ -62,8 +62,8 @@ if __name__ == '__main__':
 3. Effettuare BackUp o Ripristino 
 4. Esportare le transazioni in formato testuale                                   
 5. Uscire
-                                    
-    '''))
+
+'''))
 
         if main_menu_choice == '1':
             # Logica creazione nuovo utente:
