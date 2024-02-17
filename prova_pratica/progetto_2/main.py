@@ -89,7 +89,7 @@ if __name__ == '__main__':
 2. Ripristinare stato da un precedente backup
 3. Tornare al menu principale\n
 
-    '''
+'''
             print(green(menu_ripristino))
             nome_file = 'backup.pkl'
             backup_choice = input(": ")
@@ -143,7 +143,7 @@ if __name__ == '__main__':
                 print(
                     green(f"\n\nBentornato {user.nominativo}, Il tuo saldo attuale è: {user.saldo}€ \nCosa vuoi fare? \n\n"))
             user_choice = input(green(
-                f"1. Nuovo Versamento\n2. Nuovo Prelievo\n3. Vedere lo storico delle operazioni\n4. Esportare una OP\n5. Tornare al Menu Principale\n"))
+                f"1. Nuovo Versamento\n2. Nuovo Prelievo\n3. Vedere lo storico delle operazioni\n4. Esportare storico delle operazioni\n5. Tornare al Menu Principale\n"))
 
             # possibile scelte:
             if user_choice == '1':
@@ -227,7 +227,18 @@ if __name__ == '__main__':
                     continue
 
             elif user_choice == '4':
-                pass
+                try:
+                    counter = 0
+                    with open('transazioni_utente.txt', 'w') as file:
+                        for transac in user.lista_transazioni:
+                            file.write(
+                                f"{counter}. {transac.print_transazione()}\n")
+                            counter += 1
+                    print("Esportazione riuscita in: transazioni_utente.txt !\n\n")
+                except:
+                    print(red("Esportazione fallita... \nTermino Programma"))
+                    time.sleep(1)
+                    sys.exit()
 
             elif user_choice == '5':
                 print(green("\nReturning to main menu: "))

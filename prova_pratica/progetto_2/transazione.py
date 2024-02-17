@@ -1,7 +1,9 @@
+import datetime
 from colorama import Fore, Style
 
 
 def green(x): return f"{Fore.GREEN}{x}{Style.RESET_ALL}"
+def red(x): return f"{Fore.RED}{x}{Style.RESET_ALL}"
 
 
 class Transazione:
@@ -14,38 +16,35 @@ class Transazione:
         return f"[{self.data} - {self.ammontare}€ - {self.tipo}]"
 
 
-def filtra_data(transazioni: list['Transazione'], data_inizio, data_fine):
+def filtra_data(transazioni: list['Transazione'], data_inizio, data_fine) -> list['Transazione']:
     res = []
     for tran in transazioni:
         if (tran.data >= data_inizio and
-                tran.data <= data_fine
+            tran.data <= data_fine
             ):
             res.append(tran)
     return res
 
 
-def filtra_data_DB(transazioni: list['Transazione'], data_inizio, data_fine):
+def filtra_data_Debug(transazioni: list['Transazione'], data_inizio, data_fine):
     res = []
     print(f"{data_inizio}  -  {data_fine}\n")
     for tran in transazioni:
         print(green(f"{tran.data}"))
         if (tran.data >= data_inizio and
-                tran.data <= data_fine
+            tran.data <= data_fine
             ):
             res.append(tran)
             print(green("appended"))
     return res
 
 
-def red(x): return f"{Fore.RED}{x}{Style.RESET_ALL}"
-def verde(x): return f"{Fore.GREEN}{x}{Style.RESET_ALL}"
-
-
 if __name__ == '__main__':
-    import datetime
-    import time
-    import sys
-    import pickle
+
+    # Esempio d'uso come script:
+    #     python3 -m transazione -h -> in line Helper
+    #     python3 -m transazione backup.pkl 2000/10/10 2025/10/10 transazioni.txt
+
     import argparse
     import main
 
