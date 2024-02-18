@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     'file_backup', help='Nome del file da cui effettuare il backup', type=str)
 parser.add_argument(
-    'user', help='Specifica User (nominativo senza spazi) le cui richieste vanno esportate'
+    'user', help='Specifica User (nominativo senza spazi) le cui richieste vanno esportate!'
 )
 args = parser.parse_args()
 print(args.file_backup)
