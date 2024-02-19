@@ -2,8 +2,8 @@ import datetime
 from colorama import Fore, Style
 
 
-def green(x): return f"{Fore.GREEN}{x}{Style.RESET_ALL}"
-def red(x): return f"{Fore.RED}{x}{Style.RESET_ALL}"
+# def green(x): return f"{Fore.GREEN}{x}{Style.RESET_ALL}"
+# def red(x): return f"{Fore.RED}{x}{Style.RESET_ALL}"
 
 
 class Transazione:
@@ -20,8 +20,8 @@ def filtra_data(transazioni: list['Transazione'], data_inizio, data_fine) -> lis
     res = []
     for tran in transazioni:
         if (tran.data >= data_inizio and
-            tran.data <= data_fine
-            ):
+                tran.data <= data_fine
+                ):
             res.append(tran)
     return res
 
@@ -32,8 +32,8 @@ def filtra_data_Debug(transazioni: list['Transazione'], data_inizio, data_fine):
     for tran in transazioni:
         print(green(f"{tran.data}"))
         if (tran.data >= data_inizio and
-            tran.data <= data_fine
-            ):
+                tran.data <= data_fine
+                ):
             res.append(tran)
             print(green("appended"))
     return res
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     # Esempio d'uso come script:
     #     python3 -m transazione -h -> in line Helper
     #     python3 -m transazione backup.pkl 2000/10/10 2025/10/10 transazioni.txt
-
+    import users
     import argparse
     import main
 
@@ -71,9 +71,9 @@ if __name__ == '__main__':
     data_fine = string_to_data(args.data_fine)
     dest_file = args.file_destinazione
 
-    contenitore_utenti = main.load_backup_utenti(file_backup)
+    contenitore_utenti = users.load_backup_utenti(file_backup)
     print(
-        green(f"\nDati:\nNome file: {file_backup}\n"))
+        main.green(f"\nDati:\nNome file: {file_backup}\n"))
     res = []
     for utente in contenitore_utenti.values():
         transazioni_filtered = filtra_data(
@@ -87,5 +87,5 @@ if __name__ == '__main__':
             file.write(f"{counter}.  {tran.print_transazione()}\n")
             counter += 1
     print(
-        green(f"\nTransazioni esportate con successo in {dest_file}! \n")
+        main.green(f"\nTransazioni esportate con successo in {dest_file}! \n")
     )

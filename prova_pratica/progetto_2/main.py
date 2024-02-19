@@ -12,24 +12,6 @@ def green(x): return f"{Fore.GREEN}{x}{Style.RESET_ALL}"
 def to_key(x): return x.strip().lower().replace(" ", "")
 
 
-def crea_backup_utenti(nome_file, struct):
-    with open(nome_file, 'wb') as file:
-        pickle.dump(struct, file)
-        print("Y")
-    print(green(f"Back Up utenti salvato con successo in: {nome_file} "))
-
-
-def load_backup_utenti(nome_file):
-    try:
-        with open(nome_file, 'rb') as file:
-            utenti = pickle.load(file)
-        print(green(f"Utenti ripristinati con successo!\n"))
-        return utenti
-    except:
-        print(red("Ripristino Fallito!\n"))
-        return []
-
-
 def string_to_data(string: str):
     string = string.replace(" ", "")
     componenti_data = string.split("/")
@@ -41,14 +23,12 @@ def string_to_data(string: str):
 
 
 # MENU
-
-contenitore_utenti = {}
-ceo = users.Utente('User 1', [], 5)
-# Format Contenitore Utenti:
-# USER_KEY(nospazi) : USER('nominativo', 'lista', 'saldo')
-contenitore_utenti['user1'] = ceo
-
 if __name__ == '__main__':
+    contenitore_utenti = {}
+    ceo = users.Utente('User 1', [], 5)
+    # Format Contenitore Utenti:
+    # USER_KEY(nospazi) : USER('nominativo', 'lista', 'saldo')
+    contenitore_utenti['user1'] = ceo
     while True:
         print(red("\nLista Utenti: "))
         for pre_user in contenitore_utenti.values():
@@ -94,10 +74,10 @@ if __name__ == '__main__':
             nome_file = 'backup.pkl'
             backup_choice = input(": ")
             if backup_choice == '1':  # fare backup
-                crea_backup_utenti(nome_file, contenitore_utenti)
+                users.crea_backup_utenti(nome_file, contenitore_utenti)
                 continue
             elif backup_choice == '2':  # ripristinare da backup
-                contenitore_utenti = load_backup_utenti(nome_file)
+                contenitore_utenti = users.load_backup_utenti(nome_file)
                 continue
             elif backup_choice == '3':
                 continue

@@ -58,7 +58,7 @@ if __name__ == '__main__':
 """))
         if main_menu_choice == '1':
             # Logica creazione nuovo utente
-            nominativo = input("Inserisci nome e cognome: ")
+            nominativo = input("Inserisci nome e cognomee: ")
             stipendio = int(input("Inserisci stipendio: "))
             orario = int(input("Inserisci il tuo orario: "))
             ruolo = input("Inserisci il tuo ruolo: (s) o (r): ").lower()
@@ -96,7 +96,6 @@ if __name__ == '__main__':
 1. Effettuare un BackUp degli utenti attuali 
 2. Ripristinare stato da un precedente backup
 3. Tornare al menu principale\n
-
 '''
             print(verde(menu_ripristino))
             nome_file = 'backup.pkl'

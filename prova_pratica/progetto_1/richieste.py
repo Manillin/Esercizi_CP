@@ -16,7 +16,7 @@ def new_richiesta_pagamento(selected_user):
         selected_user.richieste_pag.append(
             [id_richiesta, ore_richiesta, stato_richiesta])
     else:
-        print(red("Richiesta di pagamento non disponsibile per 'Responsabile'\n"))
+        print(red("Richiesta di pagamento non disponsibile per utente 'Responsabile'\n"))
         return None
 
 
@@ -29,7 +29,7 @@ def cronologia_richieste(selected_user):
         else:
             print("Nessuna richiesta trovata...\n")
     else:
-        print(red("Cronologia richieste non disponsibile per 'Responsabile'\n"))
+        print(red("Cronologia richieste non disponsibile per utente 'Responsabile'\n"))
         return None
 
 
@@ -99,6 +99,7 @@ def load_backup_utenti(nome_file):
 # Deve passare:
 #       - File destinato per l'esportazione
 #       - Utente cui esportare richieste
+
 if __name__ == "__main__":
     import pickle
     import main
@@ -136,5 +137,3 @@ if __name__ == "__main__":
     # Esempio uso script:
     #    python3 -m richieste -> per il helper
     #    python3 -m richieste
-    #
-    #
