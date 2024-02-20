@@ -53,9 +53,11 @@ while True:
 
     # Scelte:
     if main_menu_choice == '1':
+        continue
         pass
 
     elif main_menu_choice == '2':
+        continue
         pass
 
     # esempio di choice con submenu
@@ -81,9 +83,40 @@ while True:
             continue
 
     elif main_menu_choice == '4':
+        continue
         pass
 
     elif main_menu_choice == '5':
         print(red("\nTerminazione..."))
         time.sleep(0.5)
         sys.exit()
+
+    else:
+        print(red("Invalid choice!\n"))
+        # continue
+
+    # var per controllare il sottomenu: User choice
+    stay_on_second_menu = False
+    while not stay_on_second_menu:  # and controllo istanza classe utente
+        # user = contenitore_utenti[usr_key]
+        # greeting message
+        user_choice = input(
+            green(f"1. -\n2. -\n3. -\nX. Tornare al Menu Principale")
+        )
+
+        if user_choice == '1':
+            pass
+            # continue se devo rimanere nel sottomenu+
+
+        elif user_choice == '2':
+            pass
+
+        elif user_choice == '3':
+            pass
+
+        elif user_choice == 'X':
+            print(green("Returning to Main Menu ... "))
+            time.sleep(0.3)
+            stay_on_second_menu = True
+        else:
+            print(red("Scelta Invalida!\n"))
