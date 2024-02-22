@@ -2,8 +2,8 @@ import datetime
 from colorama import Fore, Style
 
 
-# def green(x): return f"{Fore.GREEN}{x}{Style.RESET_ALL}"
-# def red(x): return f"{Fore.RED}{x}{Style.RESET_ALL}"
+def green(x): return f"{Fore.GREEN}{x}{Style.RESET_ALL}"
+def red(x): return f"{Fore.RED}{x}{Style.RESET_ALL}"
 
 
 class Transazione:

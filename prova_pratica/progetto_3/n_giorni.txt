@@ -1,0 +1,19 @@
+Giorno: 1
+daily
+
+Giorno: 2
+daily
+twice
+
+Giorno: 3
+daily
+trice
+
+Giorno: 4
+daily
+twice
+
+Giorno: 5
+daily
+penta
+
