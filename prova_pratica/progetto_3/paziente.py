@@ -24,6 +24,18 @@ def print_terapia_giorni_successivi(paziente: 'Paziente', giorni):
         print()
 
 
+def write_terapia_giorni_successivi_to_file(paziente: 'Paziente', giorni, dest_file):
+    print("Invoked")
+    with open(dest_file, 'a') as file:
+        for g in range(giorni):
+            file.write((f"Giorno: {g+1}\n"))
+            for farmac in paziente.lista_farmaci:
+                if (g+1) % farmac.frequenza == 0:
+                    file.write((farmac.nominativo + '\n'))
+            file.write('\n')
+    print(green("Success!\n"))
+
+
 def crea_backup_pazienti(nome_file, contenitore_utenti):
     with open(nome_file, 'wb') as file:
         pickle.dump(contenitore_utenti, file)

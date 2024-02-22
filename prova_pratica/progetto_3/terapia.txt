@@ -1,0 +1,20 @@
+Terapia odieran di: test pz
+0. daily1. twice2. trice3. pentaGiorno: 1
+daily
+
+Giorno: 2
+daily
+twice
+
+Giorno: 3
+daily
+trice
+
+Giorno: 4
+daily
+twice
+
+Giorno: 5
+daily
+penta
+

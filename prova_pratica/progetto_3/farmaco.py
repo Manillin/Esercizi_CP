@@ -10,17 +10,6 @@ if __name__ == '__main__':
     import paziente
     import sys
 
-    def write_terapia_giorni_successivi_to_file(paziente: 'paziente.Paziente', giorni, dest_file):
-        print("Invoked")
-        with open(dest_file, 'w') as file:
-            for g in range(giorni):
-                file.write((f"Giorno: {g+1}\n"))
-                for farmac in paziente.lista_farmaci:
-                    if (g+1) % farmac.frequenza == 0:
-                        file.write((farmac.nominativo + '\n'))
-                file.write('\n')
-        print("Success!\n")
-
     parser = argparse.ArgumentParser()
     parser.add_argument('file_name', help='Nome del file di backup')
     parser.add_argument('file_destinazione',
@@ -42,5 +31,5 @@ if __name__ == '__main__':
         print("ERRORE")
         sys.exit()
 
-    write_terapia_giorni_successivi_to_file(
+    paziente.write_terapia_giorni_successivi_to_file(
         paziente_attuale, giorni, dest_file)

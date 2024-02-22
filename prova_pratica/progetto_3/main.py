@@ -132,17 +132,17 @@ while True:
                 print(red("Farmaco non presente nella lista!\n"))
         elif user_choice == '5':
             nome_file = "terapia.txt"
-            n_giorni = input("Numero giorni: ")
+            n_giorni = int(input("Numero giorni: "))
             with open(nome_file, 'w') as f:
-                print(
-                    green(f"Terapia odieran di: {paziente_attuale.nominativo}\n"))
+                f.write(f"Terapia odieran di: {paziente_attuale.nominativo}\n")
                 counter = 0
                 for farmaco_paziente in paziente_attuale.lista_farmaci:
-                    print(
-                        green(f"{counter}. {farmaco_paziente.nominativo}"), end='\n')
+                    f.write(f"{counter}. {farmaco_paziente.nominativo}")
+                    f.write("\n")
                     counter += 1
-                paziente.print_terapia_giorni_successivi(
-                    paziente_attuale, n_giorni)
+
+            paziente.write_terapia_giorni_successivi_to_file(
+                paziente_attuale, n_giorni, nome_file)
 
         elif user_choice == '6':
             print(green("Returning to Main Menu ... "))
