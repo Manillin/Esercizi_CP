@@ -1,10 +1,7 @@
-import datetime
 import sys
 import time
 from colorama import Fore, Style
 import sys
-import pickle
-
 import utente
 import appuntamento
 
