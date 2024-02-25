@@ -85,3 +85,46 @@ def delete_appuntamento_by_ID(user: 'utente.Utente', calendario: list[Appuntamen
         return "Appuntamento Eliminato!\n"
     else:
         return "Nessun appuntamento Trovato...\n"
+
+
+if __name__ == '__main__':
+
+    # ESEMPIO D'USO:
+    # python3 -m appuntamento backup.pkl appuntamenti.txt 2000/11/11 (oppure con 2000/10/10) ciao
+
+    import utente
+    import argparse
+    import main
+    import sys
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('file_name', help='Nome del file di backup')
+    parser.add_argument('file_destinazione',
+                        help='Nome del file su cui esportare')
+    parser.add_argument(
+        'data_ricerca', help='Data Inizio in formato [YYYY/MM/DD]')
+    parser.add_argument(
+        'utente_key', help='Chiave utente -> Nominativo senza spazi!')
+
+    args = parser.parse_args()
+    file_backup = args.file_name
+    dest_file = args.file_destinazione
+    data = string_to_data(args.data_ricerca)
+    user_key = args.utente_key
+
+    contenitore_utenti = utente.load_backup_utenti(file_backup)
+    if user_key not in contenitore_utenti:
+        print("Utente inesistente!\n")
+        sys.exit()
+    user: 'utente.Utente' = contenitore_utenti[user_key]
+    lista_appuntamenti_giorno = utente.filtra_data_giorno(
+        user.calendario, data)
+
+    if lista_appuntamenti_giorno:
+        with open(dest_file, 'w') as file:
+            for app in lista_appuntamenti_giorno:
+                file.write(app.print_appuntamento())
+                file.write("\n")
+            print(main.green("Success! "))
+    else:
+        print("Utente non ha appuntamenti in tale data")
